@@ -1,6 +1,7 @@
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 
 public class Main {
 
@@ -14,9 +15,10 @@ public class Main {
         temp.add(1);
         temp.add(6);
         temp.add(2);
-        Method methods[] = AlgorithmSearch.class.getDeclaredMethods();
+        Method methods[] = java.util.LinkedList.class.getDeclaredMethods();
         try {
             for (Method m : methods) {
+                m.getReturnType();
                 if (m.getName().contains("scan")) {
                     m.invoke(m.getDeclaringClass().newInstance(),temp);
                     System.out.println(" ");
@@ -25,6 +27,20 @@ public class Main {
         }catch (Exception e)
         {
             System.out.println("cos sie popsulo");
+        }
+        ArrayList<Method> list=new ArrayList<Method>();
+        try {
+            for (Method m : methods) {
+               list.add(m);
+            }
+        }catch (Exception e)
+        {
+            System.out.println("cos sie popsulo");
+        }
+        Comparator<Method> methodComparator=Comparator.comparing(Method::getReturnType, Comparator.comparing(Class::getName)).thenComparing(Method::getParameterCount);
+        list.sort(methodComparator);
+        for(Method m:list){
+            System.out.println(m.getReturnType().getName()+" "+m.getName()+" "+m.getParameterCount());
         }
 
 
